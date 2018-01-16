@@ -29,6 +29,7 @@ object DataBindingAdapters {
 
   @BindingAdapter("android:src") // android:src is the attribute name that this custom attribute name aliases?
   fun setImageResoruce(imageView: ImageView, resource: Int) {
+    // this is a utility
     // the resource is supposed to be an id for this image
     // setImageResource is used to set the imageResource attribute on an <ImageView ...
     // this binding must be defined because although we have a data binding defined in

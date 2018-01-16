@@ -23,12 +23,17 @@
 package com.raywenderlich.alltherages
 
 import android.os.Bundle
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity(), RageComicListFragment.OnRageComicSelected  {
+
+  private val detailsViewRequestCode: Int = 2
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
     setContentView(R.layout.activity_main)
 
     if (savedInstanceState == null) {
@@ -40,16 +45,14 @@ class MainActivity : AppCompatActivity(), RageComicListFragment.OnRageComicSelec
     }
   }
 
-  override fun onRageComicSelected(comic: Comic) {
-    Toast.makeText(this, "Hey, you selected " + comic.name + "!",
-            Toast.LENGTH_SHORT).show()
 
-    val detailsFragment =
-            RageComicDetailsFragment.newInstance(comic)
+  //override fun onRageComicSelected(comic: Comic) {
+  override fun onRageComicSelected(position: Int) {
+    val name = resources.getStringArray(R.array.names)[position]
+    Toast.makeText(this, "you selected " + name + "!", Toast.LENGTH_SHORT).show()
 
-    supportFragmentManager.beginTransaction()
-            .replace(R.id.root_layout, detailsFragment, "rageComicDetails")
-            .addToBackStack(null)
-            .commit()
+    val intent = Intent(this, RageComicDetailsActivity::class.java)
+    intent.putExtra("comicIndex", position.toString())
+    startActivityForResult(intent, detailsViewRequestCode)
   }
 }

@@ -56,7 +56,7 @@ class RageComicListFragment : Fragment() {
       // I don't think this is necessary.
       listener = context
     } else {
-      throw ClassCastException(context.toString() + " must implement OnRageComicSelected.")
+      throw ClassCastException(context.toString() + " CODE MUST must implement OnRageComicSelected.")
     }
 
     // Get rage face names and descriptions.
@@ -109,7 +109,8 @@ class RageComicListFragment : Fragment() {
 
       // bind click listener to viewholder
       // every one of these has its own click listener now
-      viewHolder.itemView.setOnClickListener { listener.onRageComicSelected(comic) }
+      //viewHolder.itemView.setOnClickListener { listener.onRageComicSelected(comic) }
+      viewHolder.itemView.setOnClickListener { listener.onRageComicSelected(position) }
     }
 
     override fun getItemCount(): Int {
@@ -130,7 +131,8 @@ class RageComicListFragment : Fragment() {
   interface OnRageComicSelected {
     // definition of a listener interface
 
-    fun onRageComicSelected(comic: Comic)
+    //fun onRageComicSelected(comic: Comic)
+    fun onRageComicSelected(position: Int)
   }
 
 }
