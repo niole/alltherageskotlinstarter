@@ -102,7 +102,6 @@ class RageComicListFragment : Fragment() {
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-      // TODO when does this happen?
       val comic = Comic(imageResIds[position], names[position],
           descriptions[position], urls[position])
       viewHolder.setData(comic)
