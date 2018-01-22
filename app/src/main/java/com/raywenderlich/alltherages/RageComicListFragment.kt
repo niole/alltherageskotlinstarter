@@ -1,25 +1,3 @@
-/**
- * Copyright (c) 2017 Razeware LLC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 package com.raywenderlich.alltherages
 
 import android.content.Context
@@ -30,20 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-
 import com.raywenderlich.alltherages.databinding.RecyclerItemRageComicBinding
 
 
 class RageComicListFragment : Fragment() {
-
   private lateinit var imageResIds: IntArray
   private lateinit var names: Array<String>
   private lateinit var descriptions: Array<String>
   private lateinit var urls: Array<String>
-  private lateinit var listener: OnRageComicSelected // this references this fragment's activity (the listener)
+  private lateinit var listener: OnRageComicSelected
 
   companion object {
-
     fun newInstance(): RageComicListFragment {
       return RageComicListFragment()
     }
@@ -51,9 +26,7 @@ class RageComicListFragment : Fragment() {
 
   override fun onAttach(context: Context?) {
     super.onAttach(context)
-
-    if (context is OnRageComicSelected) { // initialize the onragecomicselected listener. Done once the fragment is attached
-      // I don't think this is necessary.
+    if (context is OnRageComicSelected) {
       listener = context
     } else {
       throw ClassCastException(context.toString() + " CODE MUST must implement OnRageComicSelected.")
@@ -75,11 +48,8 @@ class RageComicListFragment : Fragment() {
     typedArray.recycle()
   }
 
-  override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                            savedInstanceState: Bundle?): View? {
-
-    val view: View = inflater!!.inflate(R.layout.fragment_rage_comic_list, container,
-            false)
+  override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    val view: View = inflater!!.inflate(R.layout.fragment_rage_comic_list, container,false)
     val activity = activity
     val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view) as RecyclerView
     recyclerView.layoutManager = GridLayoutManager(activity, 2)
@@ -96,41 +66,30 @@ class RageComicListFragment : Fragment() {
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-      val recyclerItemRageComicBinding = RecyclerItemRageComicBinding.inflate(layoutInflater,
-          viewGroup, false)
+      val recyclerItemRageComicBinding = RecyclerItemRageComicBinding.inflate(layoutInflater, viewGroup, false)
       return ViewHolder(recyclerItemRageComicBinding.root, recyclerItemRageComicBinding)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-      val comic = Comic(imageResIds[position], names[position],
-          descriptions[position], urls[position])
+      val comic = Comic(imageResIds[position], names[position], descriptions[position], urls[position])
       viewHolder.setData(comic)
-
-      // bind click listener to viewholder
-      // every one of these has its own click listener now
-      //viewHolder.itemView.setOnClickListener { listener.onRageComicSelected(comic) }
       viewHolder.itemView.setOnClickListener { listener.onRageComicSelected(position) }
     }
 
     override fun getItemCount(): Int {
       return names.size
     }
+
   }
 
-  internal inner class ViewHolder constructor(itemView: View,
-                                              val recyclerItemRageComicBinding:
-                                              RecyclerItemRageComicBinding) :
+  internal inner class ViewHolder constructor(itemView: View, val recyclerItemRageComicBinding: RecyclerItemRageComicBinding) :
       RecyclerView.ViewHolder(itemView) {
-
     fun setData(comic: Comic) {
       recyclerItemRageComicBinding.comic = comic
     }
   }
 
   interface OnRageComicSelected {
-    // definition of a listener interface
-
-    //fun onRageComicSelected(comic: Comic)
     fun onRageComicSelected(position: Int)
   }
 

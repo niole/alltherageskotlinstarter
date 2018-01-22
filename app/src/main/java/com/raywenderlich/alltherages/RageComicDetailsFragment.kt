@@ -30,10 +30,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.raywenderlich.alltherages.databinding.FragmentRageComicDetailsBinding // is this generated?
 
-//1
 class RageComicDetailsFragment : Fragment() {
 
-  //2
   companion object {
 
     private const val COMIC = "comic"
@@ -51,14 +49,11 @@ class RageComicDetailsFragment : Fragment() {
     }
   }
 
-  //3
   override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                             savedInstanceState: Bundle?): View? {
     val fragmentRageComicDetailsBinding = FragmentRageComicDetailsBinding.inflate(inflater!!,
             container, false)
 
-    // this is done because fragments can't be initialized with non empty constructors
-    // rather, they are managed by the FragmentManger
     val comic = arguments.getSerializable(COMIC) as Comic
     fragmentRageComicDetailsBinding.comic = comic
     comic.text = String.format(getString(R.string.description_format), comic.description, comic.url)

@@ -21,6 +21,11 @@
   THE SOFTWARE.
   -->
 <resources>
+  <array name="coins">
+    <item>none</item>
+    <item>BTC-USD</item>
+    <item>none</item>
+  </array>
   <array name="images">
     <item>@drawable/cereal_guy</item>
     <item>@drawable/f_yeah</item>

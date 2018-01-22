@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), RageComicListFragment.OnRageComicSelec
 
   override fun onRageComicSelected(position: Int) {
     val name = resources.getStringArray(R.array.names)[position]
-    Toast.makeText(this, "you selected " + name + "!", Toast.LENGTH_SHORT).show()
+    Toast.makeText(this, "you selected $name!", Toast.LENGTH_SHORT).show()
 
     val intent = Intent(this, RageComicDetailsActivity::class.java)
     intent.putExtra("comicIndex", position.toString())
