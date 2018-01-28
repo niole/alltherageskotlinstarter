@@ -114,30 +114,47 @@ class NumberFragment : Fragment() {
         ): View {
         val view: View = inflater!!.inflate(R.layout.fragment_number, container, false)
         val index = arguments.getSerializable("n") as Int
-        val savedCoinName = resources.getStringArray(R.array.coins)[index]
 
         if (savedInstanceState == null) {
-            coinName = savedCoinName
-            Fuel.get("https://api.gdax.com/products/$coinName/stats").responseString { request, response, result ->
-                when (result) {
-                    is Result.Failure -> {
-                        val errorText = view.findViewById<TextView>(R.id.error) as TextView
-                        errorText.text = "There was an error"
-                    }
-                    is Result.Success -> {
-                        val data = result.get()
-                        val moshi = Moshi.Builder()
-                                .add(KotlinJsonAdapterFactory())
-                                .build()
-                        val cryptoAdapter = moshi.adapter(CryptoStatus::class.java)
+            if (index > 3) {
+                val host = resources.getString(R.string.wordServiceHost)
+                Fuel.get("$host/word/$index").responseString { request, response, result ->
+                  when (result) {
+                      is Result.Failure -> {
+                          val errorText = view.findViewById<TextView>(R.id.error) as TextView
+                          errorText.text = "There was an error"
+                      }
+                      is Result.Success -> {
+                          val data = result.get()
+                          val errorText = view.findViewById<TextView>(R.id.error) as TextView
+                          errorText.text = data
 
-                        val out = cryptoAdapter.fromJson(data)
-                        if (out != null) {
-                            cryptoStatus = out
-                            saveState(Bundle())
+                      }
+                  }
+                }
+            } else {
+                coinName = resources.getStringArray(R.array.coins)[index]
+                Fuel.get("https://api.gdax.com/products/$coinName/stats").responseString { request, response, result ->
+                    when (result) {
+                        is Result.Failure -> {
+                            val errorText = view.findViewById<TextView>(R.id.error) as TextView
+                            errorText.text = "There was an error"
                         }
+                        is Result.Success -> {
+                            val data = result.get()
+                            val moshi = Moshi.Builder()
+                                    .add(KotlinJsonAdapterFactory())
+                                    .build()
+                            val cryptoAdapter = moshi.adapter(CryptoStatus::class.java)
 
-                        mutateView(view)
+                            val out = cryptoAdapter.fromJson(data)
+                            if (out != null) {
+                                cryptoStatus = out
+                                saveState(Bundle())
+                            }
+
+                            mutateView(view)
+                        }
                     }
                 }
             }
@@ -146,5 +163,9 @@ class NumberFragment : Fragment() {
         }
 
         return view
+    }
+
+    fun handleResponse(onSuccess: () -> Unit, onFailure: () -> Unit): Unit {
+
     }
 }

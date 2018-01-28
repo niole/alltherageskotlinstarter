@@ -13,7 +13,7 @@ class TabPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(f
     }
 
     override fun getCount(): Int {
-        return 4
+        return 6
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
