@@ -28,6 +28,9 @@ class NumberFragment : Fragment() {
     private var cryptoStatus: CryptoStatus = CryptoStatus(0.toFloat(), 0.toFloat(), 0.toFloat(), 0.toFloat(), 0.toFloat(), 0.toFloat())
 
     companion object {
+        val moshi = Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
 
         fun newInstance(n: Int): NumberFragment {
             val args = Bundle() // Bundle is key value pairs
@@ -142,9 +145,6 @@ class NumberFragment : Fragment() {
                         }
                         is Result.Success -> {
                             val data = result.get()
-                            val moshi = Moshi.Builder()
-                                    .add(KotlinJsonAdapterFactory())
-                                    .build()
                             val cryptoAdapter = moshi.adapter(CryptoStatus::class.java)
 
                             val out = cryptoAdapter.fromJson(data)
